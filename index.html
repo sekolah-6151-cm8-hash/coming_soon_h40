@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Akan Datang - RoPix Universe</title>
     
-    <!-- Favicon (Ikon Tab Chrome - Logo 1) -->
-    <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1Z_50qAfa3vpSlQOhY-9QeXgIa88xpdrb">
+    <!-- Favicon (Logo 1 Tempatan) -->
+    <link rel="icon" type="image/png" href="logo1.png">
 
-    <!-- FontAwesome untuk Ikon -->
+    <!-- FontAwesome & Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Amiri:wght@700&display=swap" rel="stylesheet">
     
     <style>
@@ -31,7 +30,7 @@
             position: relative;
         }
 
-        /* Video Background Container (Cross-Device Compatible) */
+        /* Video Background Container */
         .video-background {
             position: fixed;
             top: 0;
@@ -67,7 +66,7 @@
             z-index: 2;
         }
 
-        /* Main Responsive Container */
+        /* Container Utama */
         .container {
             position: relative;
             z-index: 3;
@@ -80,7 +79,7 @@
             text-align: center;
         }
 
-        /* 3 Logo Section (Tanpa Kotak) */
+        /* 3 Logo Section */
         .logos-container {
             display: flex;
             justify-content: center;
@@ -104,7 +103,7 @@
             filter: drop-shadow(0px 6px 18px rgba(0, 212, 255, 0.8));
         }
 
-        /* Main Content Body */
+        /* Content Body */
         .content {
             display: flex;
             flex-direction: column;
@@ -113,7 +112,7 @@
             width: 100%;
         }
 
-        /* Petak Bulat Status Badge (Tulisan Jawi) */
+        /* Petak Bulat Status Badge (Jawi) */
         .status-badge {
             display: inline-block;
             padding: 4px 30px;
@@ -267,7 +266,6 @@
             line-height: 1.4;
         }
 
-        /* Mobile Optimization Rules */
         @media (max-width: 600px) {
             .container { padding: 20px 12px 12px 12px; }
             .logos-container { gap: 15px; }
@@ -285,40 +283,36 @@
 </head>
 <body>
 
-    <!-- VIDEO BACKGROUND (FULLY OPTIMIZED FOR MOBILE/MOBILE BROWSERS) -->
+    <!-- VIDEO BACKGROUND TEMPATAN -->
     <div class="video-background">
         <video id="bg-video" autoplay loop muted playsinline -webkit-playsinline disablePictureInPicture preload="auto">
-            <source src="https://files.catbox.moe/usa939.mp4" type="video/mp4">
+            <source src="bg-video.mp4" type="video/mp4">
         </video>
     </div>
 
-    <!-- OVERLAY LAYAR BIRU + BLUR HALUS -->
+    <!-- OVERLAY -->
     <div class="overlay"></div>
 
-    <!-- AUDIO PLAYER (DIRECT CATBOX STREAM - UNMUTED & AUTOPLAY) -->
+    <!-- AUDIO PLAYER TEMPATAN -->
     <audio id="bgm-audio" loop autoplay preload="auto">
-        <source src="https://files.catbox.moe/d4w2pn.mp3" type="audio/mpeg">
+        <source src="bgm-audio.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- POPUP NOTIFIKASI 'اکن داتڠ' -->
+    <!-- TOAST POPUP -->
     <div id="toast" class="toast-popup">اکن داتڠ</div>
 
-    <!-- UTAMA -->
+    <!-- CONTAINER UTAMA -->
     <div class="container">
         
-        <!-- 3 LOGO DIRECT DISPLAY -->
         <div class="logos-container">
-            <img src="https://lh3.googleusercontent.com/d/1Z_50qAfa3vpSlQOhY-9QeXgIa88xpdrb" class="logo-item" alt="Logo 1">
-            <img src="https://lh3.googleusercontent.com/d/1OL4Uqg0Gb-RFVkpAw-NWkr60uYz93Nty" class="logo-item" alt="Logo 2">
-            <img src="https://lh3.googleusercontent.com/d/1eRE1oCKWPD6xsJJt1jF9ONliPeAWhmS6" class="logo-item" alt="Logo 3">
+            <img src="logo1.png" class="logo-item" alt="Logo 1">
+            <img src="logo2.png" class="logo-item" alt="Logo 2">
+            <img src="logo3.png" class="logo-item" alt="Logo 3">
         </div>
 
-        <!-- CONTENT UTAMA -->
         <div class="content">
-            <!-- PETAK BULAT (AKAN DATANG DALAM TULISAN JAWI) -->
             <div class="status-badge">اکن داتڠ</div>
 
-            <!-- COUNTDOWN TIMER (SEHINGGA 10/10/2026 - JAWI LABELS) -->
             <div class="countdown">
                 <div class="time-box">
                     <span id="days">00</span>
@@ -338,14 +332,12 @@
                 </div>
             </div>
 
-            <!-- MEDIA SOSIAL (IG & TIKTOK) -->
             <div class="social-links">
                 <button class="social-icon" onclick="showAkanDatang()" title="Instagram"><i class="fab fa-instagram"></i></button>
                 <button class="social-icon" onclick="showAkanDatang()" title="TikTok"><i class="fab fa-tiktok"></i></button>
             </div>
         </div>
 
-        <!-- FOOTER INFO & COPYRIGHT -->
         <div class="footer-info">
             <div class="contact-details">
                 <a href="tel:045731237" class="contact-item">
@@ -362,26 +354,19 @@
 
     <!-- SCRIPTS -->
     <script>
-        // 1. KAWALAN PLAYBACK VIDEO STABIL UNTUK SEMUA PERANTI (MOBILE, TABLET, DESKTOP, TV)
+        // 1. KAWALAN PLAYBACK VIDEO BACKGROUND
         const video = document.getElementById("bg-video");
 
-        function forceStartVideo() {
+        function startVideo() {
             if (video) {
                 video.muted = true;
                 video.defaultMuted = true;
-                const promise = video.play();
-                if (promise !== undefined) {
-                    promise.catch(() => {
-                        // Jika peranti dalam mod Penjimatan Kuasa, paksa main apabila skrin disentuh
-                        document.addEventListener('touchstart', () => { video.play(); }, { once: true });
-                        document.addEventListener('click', () => { video.play(); }, { once: true });
-                    });
-                }
+                video.play().catch(() => {});
             }
         }
 
-        window.addEventListener("DOMContentLoaded", forceStartVideo);
-        window.addEventListener("load", forceStartVideo);
+        window.addEventListener("DOMContentLoaded", startVideo);
+        window.addEventListener("load", startVideo);
 
         if (video) {
             video.addEventListener("timeupdate", function() {
@@ -392,33 +377,42 @@
             });
         }
 
-        // 2. KAWALAN AUTOPLAY AUDIO
+        // 2. KAWALAN AUTOPLAY AUDIO PINTAR (SOPHISTICATED CROSS-DEVICE AUTOPLAY)
         const audio = document.getElementById("bgm-audio");
 
-        function playAudioStream() {
+        function executeDirectAutoplay() {
             if (audio) {
                 audio.muted = false;
-                audio.play().catch(() => {});
+                const promise = audio.play();
+                if (promise !== undefined) {
+                    promise.catch(() => {
+                        // Jika pelayar menyekat Autoplay tanpa kebenaran, aktifkan listener sentuhan halus secara automatik
+                        setupGlobalTouchUnmute();
+                    });
+                }
             }
         }
 
-        window.addEventListener("DOMContentLoaded", playAudioStream);
-        window.addEventListener("load", playAudioStream);
+        function setupGlobalTouchUnmute() {
+            const events = ['click', 'touchstart', 'touchend', 'scroll', 'mousemove', 'keydown'];
+            
+            function handleUserInteraction() {
+                if (audio) {
+                    audio.muted = false;
+                    audio.play().then(() => {
+                        events.forEach(evt => document.removeEventListener(evt, handleUserInteraction));
+                    }).catch(() => {});
+                }
+            }
 
-        function forceAudioUnmute() {
-            playAudioStream();
-            document.removeEventListener('click', forceAudioUnmute);
-            document.removeEventListener('touchstart', forceAudioUnmute);
-            document.removeEventListener('mousemove', forceAudioUnmute);
-            document.removeEventListener('scroll', forceAudioUnmute);
+            events.forEach(evt => document.addEventListener(evt, handleUserInteraction, { once: true, passive: true }));
         }
 
-        document.addEventListener('click', forceAudioUnmute);
-        document.addEventListener('touchstart', forceAudioUnmute);
-        document.addEventListener('mousemove', forceAudioUnmute);
-        document.addEventListener('scroll', forceAudioUnmute);
+        // Jalankan percubaan Autoplay serta-merta semasa skrin dimuatkan
+        window.addEventListener("DOMContentLoaded", executeDirectAutoplay);
+        window.addEventListener("load", executeDirectAutoplay);
 
-        // 3. COUNTDOWN TIMER (SEHINGGA 10 OKTOBER 2026)
+        // 3. COUNTDOWN TIMER (10 OKTOBER 2026)
         const targetDate = new Date("October 10, 2026 00:00:00").getTime();
 
         const timer = setInterval(function() {
@@ -442,7 +436,7 @@
             document.getElementById("seconds").innerText = seconds < 10 ? '0' + seconds : seconds;
         }, 1000);
 
-        // 4. FUNGSI TOAST 'اکن داتڠ'
+        // 4. TOAST POPUP 'اکن داتڠ'
         let toastTimeout;
         function showAkanDatang() {
             const toast = document.getElementById("toast");
