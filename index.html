@@ -31,7 +31,7 @@
             position: relative;
         }
 
-        /* Video Background Container */
+        /* Video Background Container (Cross-Device Compatible) */
         .video-background {
             position: fixed;
             top: 0;
@@ -40,11 +40,12 @@
             height: 100%;
             z-index: 1;
             overflow: hidden;
+            background-color: #030a16;
         }
 
         .video-background video {
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             object-fit: cover;
             position: absolute;
             top: 50%;
@@ -284,9 +285,9 @@
 </head>
 <body>
 
-    <!-- VIDEO BACKGROUND (DIRECT CATBOX STREAM) -->
+    <!-- VIDEO BACKGROUND (FULLY OPTIMIZED FOR MOBILE/MOBILE BROWSERS) -->
     <div class="video-background">
-        <video id="bg-video" autoplay loop muted playsinline preload="auto">
+        <video id="bg-video" autoplay loop muted playsinline -webkit-playsinline disablePictureInPicture preload="auto">
             <source src="https://files.catbox.moe/usa939.mp4" type="video/mp4">
         </video>
     </div>
@@ -361,12 +362,28 @@
 
     <!-- SCRIPTS -->
     <script>
-        // 1. KAWALAN PLAYBACK VIDEO (0:00 - 0:28 LOOP)
+        // 1. KAWALAN PLAYBACK VIDEO STABIL UNTUK SEMUA PERANTI (MOBILE, TABLET, DESKTOP, TV)
         const video = document.getElementById("bg-video");
-        if (video) {
-            video.muted = true;
-            video.play().catch(() => {});
 
+        function forceStartVideo() {
+            if (video) {
+                video.muted = true;
+                video.defaultMuted = true;
+                const promise = video.play();
+                if (promise !== undefined) {
+                    promise.catch(() => {
+                        // Jika peranti dalam mod Penjimatan Kuasa, paksa main apabila skrin disentuh
+                        document.addEventListener('touchstart', () => { video.play(); }, { once: true });
+                        document.addEventListener('click', () => { video.play(); }, { once: true });
+                    });
+                }
+            }
+        }
+
+        window.addEventListener("DOMContentLoaded", forceStartVideo);
+        window.addEventListener("load", forceStartVideo);
+
+        if (video) {
             video.addEventListener("timeupdate", function() {
                 if (this.currentTime >= 28) {
                     this.currentTime = 0;
@@ -375,19 +392,19 @@
             });
         }
 
-        // 2. KAWALAN AUTOPLAY AUDIO (AUTOMATIK BILA BUKA & PAKSA BILA ADA SEBARANG INTERAKSI SKRIN)
+        // 2. KAWALAN AUTOPLAY AUDIO
         const audio = document.getElementById("bgm-audio");
 
         function playAudioStream() {
-            audio.muted = false;
-            audio.play().catch(() => {});
+            if (audio) {
+                audio.muted = false;
+                audio.play().catch(() => {});
+            }
         }
 
-        // Jalankan autoplay audio terus
         window.addEventListener("DOMContentLoaded", playAudioStream);
         window.addEventListener("load", playAudioStream);
 
-        // Pemicu automatik sebaik sahaja skrin disentuh/diklik/digerakkan oleh pengunjung
         function forceAudioUnmute() {
             playAudioStream();
             document.removeEventListener('click', forceAudioUnmute);
