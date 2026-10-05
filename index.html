@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Akan Datang - RoPix Universe</title>
+    
+    <!-- Favicon (Ikon Tab Chrome - Logo 1) -->
+    <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1Z_50qAfa3vpSlQOhY-9QeXgIa88xpdrb">
+
+    <!-- FontAwesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Amiri:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body, html {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            background-color: #030a16;
+            color: #ffffff;
+            position: relative;
+        }
+
+        /* Video Background Container */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .video-background video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        /* Overlay Biru Transparan + Blur Halus */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(3, 10, 22, 0.75), rgba(13, 27, 42, 0.65));
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 2;
+        }
+
+        /* Main Responsive Container */
+        .container {
+            position: relative;
+            z-index: 3;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 15px 15px 15px;
+            text-align: center;
+        }
+
+        /* 3 Logo Section (Tanpa Kotak) */
+        .logos-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            margin-top: 5px;
+            width: 100%;
+        }
+
+        .logo-item {
+            max-height: 75px;
+            max-width: 28%;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0px 4px 12px rgba(0, 180, 216, 0.5));
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+        .logo-item:hover {
+            transform: scale(1.08);
+            filter: drop-shadow(0px 6px 18px rgba(0, 212, 255, 0.8));
+        }
+
+        /* Main Content Body */
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+            width: 100%;
+        }
+
+        /* Petak Bulat Status Badge (Tulisan Jawi) */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 30px;
+            border: 2px solid #00b4d8;
+            border-radius: 50px;
+            font-family: 'Amiri', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #caf0f8;
+            background: rgba(0, 180, 216, 0.2);
+            box-shadow: 0 0 15px rgba(0, 180, 216, 0.4);
+            animation: pulse 2s infinite;
+            line-height: 1.3;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 180, 216, 0.5); }
+            70% { box-shadow: 0 0 0 15px rgba(0, 180, 216, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 180, 216, 0); }
+        }
+
+        /* Countdown Timer */
+        .countdown {
+            display: flex;
+            gap: 12px;
+            margin-top: 5px;
+            justify-content: center;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .time-box {
+            background: rgba(13, 27, 42, 0.65);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(0, 180, 216, 0.35);
+            padding: 10px 8px;
+            border-radius: 12px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .time-box span {
+            display: block;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #48cae4;
+        }
+
+        .time-box p {
+            font-family: 'Amiri', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ade8f4;
+            line-height: 1.2;
+            margin-top: 2px;
+        }
+
+        /* Media Sosial */
+        .social-links {
+            display: flex;
+            gap: 18px;
+            margin-top: 5px;
+        }
+
+        .social-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            font-size: 1.3rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover, .social-icon:active {
+            background: #00b4d8;
+            color: #0d1b2a;
+            transform: scale(1.08);
+            box-shadow: 0 0 15px rgba(0, 180, 216, 0.6);
+        }
+
+        /* Toast Popup 'اکن داتڠ' */
+        .toast-popup {
+            visibility: hidden;
+            min-width: 150px;
+            background-color: rgba(0, 180, 216, 0.95);
+            color: #0d1b2a;
+            text-align: center;
+            border-radius: 30px;
+            padding: 8px 22px;
+            position: fixed;
+            z-index: 200;
+            left: 50%;
+            bottom: 110px;
+            transform: translateX(-50%);
+            font-family: 'Amiri', serif;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.8);
+            opacity: 0;
+            transition: opacity 0.4s ease, visibility 0.4s ease, bottom 0.4s ease;
+        }
+
+        .toast-popup.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 120px;
+        }
+
+        /* Footer Info & Copyright */
+        .footer-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 0.82rem;
+            color: #ade8f4;
+            width: 100%;
+        }
+
+        .contact-details {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            color: #ade8f4;
+        }
+
+        .contact-item i {
+            color: #00b4d8;
+        }
+
+        .copyright-text {
+            font-size: 0.72rem;
+            color: #94a3b8;
+            opacity: 0.9;
+            letter-spacing: 0.3px;
+            line-height: 1.4;
+        }
+
+        /* Mobile Optimization Rules */
+        @media (max-width: 600px) {
+            .container { padding: 20px 12px 12px 12px; }
+            .logos-container { gap: 15px; }
+            .logo-item { max-height: 50px; }
+            .status-badge { font-size: 1.5rem; padding: 2px 25px; }
+            .countdown { gap: 8px; }
+            .time-box { padding: 8px 4px; }
+            .time-box span { font-size: 1.4rem; }
+            .time-box p { font-size: 0.95rem; }
+            .contact-details { flex-direction: column; gap: 4px; }
+            .contact-item { font-size: 0.78rem; }
+            .copyright-text { font-size: 0.65rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- VIDEO BACKGROUND (DIRECT CATBOX STREAM) -->
+    <div class="video-background">
+        <video id="bg-video" autoplay loop muted playsinline preload="auto">
+            <source src="https://files.catbox.moe/usa939.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <!-- OVERLAY LAYAR BIRU + BLUR HALUS -->
+    <div class="overlay"></div>
+
+    <!-- AUDIO PLAYER (DIRECT CATBOX STREAM - UNMUTED & AUTOPLAY) -->
+    <audio id="bgm-audio" loop autoplay preload="auto">
+        <source src="https://files.catbox.moe/d4w2pn.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- POPUP NOTIFIKASI 'اکن داتڠ' -->
+    <div id="toast" class="toast-popup">اکن داتڠ</div>
+
+    <!-- UTAMA -->
+    <div class="container">
+        
+        <!-- 3 LOGO DIRECT DISPLAY -->
+        <div class="logos-container">
+            <img src="https://lh3.googleusercontent.com/d/1Z_50qAfa3vpSlQOhY-9QeXgIa88xpdrb" class="logo-item" alt="Logo 1">
+            <img src="https://lh3.googleusercontent.com/d/1OL4Uqg0Gb-RFVkpAw-NWkr60uYz93Nty" class="logo-item" alt="Logo 2">
+            <img src="https://lh3.googleusercontent.com/d/1eRE1oCKWPD6xsJJt1jF9ONliPeAWhmS6" class="logo-item" alt="Logo 3">
+        </div>
+
+        <!-- CONTENT UTAMA -->
+        <div class="content">
+            <!-- PETAK BULAT (AKAN DATANG DALAM TULISAN JAWI) -->
+            <div class="status-badge">اکن داتڠ</div>
+
+            <!-- COUNTDOWN TIMER (SEHINGGA 10/10/2026 - JAWI LABELS) -->
+            <div class="countdown">
+                <div class="time-box">
+                    <span id="days">00</span>
+                    <p>هاري</p>
+                </div>
+                <div class="time-box">
+                    <span id="hours">00</span>
+                    <p>جم</p>
+                </div>
+                <div class="time-box">
+                    <span id="minutes">00</span>
+                    <p>مينيت</p>
+                </div>
+                <div class="time-box">
+                    <span id="seconds">00</span>
+                    <p>ساعت</p>
+                </div>
+            </div>
+
+            <!-- MEDIA SOSIAL (IG & TIKTOK) -->
+            <div class="social-links">
+                <button class="social-icon" onclick="showAkanDatang()" title="Instagram"><i class="fab fa-instagram"></i></button>
+                <button class="social-icon" onclick="showAkanDatang()" title="TikTok"><i class="fab fa-tiktok"></i></button>
+            </div>
+        </div>
+
+        <!-- FOOTER INFO & COPYRIGHT -->
+        <div class="footer-info">
+            <div class="contact-details">
+                <a href="tel:045731237" class="contact-item">
+                    <i class="fas fa-phone"></i> 04-573 1237
+                </a>
+                <a href="mailto:sekolah-6151-cm8@moe-dl.edu.my" class="contact-item">
+                    <i class="fas fa-envelope"></i> sekolah-6151-cm8@moe-dl.edu.my
+                </a>
+            </div>
+            <p class="copyright-text">™ 2026 Briged Shabab An-Nawawi | SMKA Al-Irshad | Pulau Pinang | Hak Cipta Terpelihara</p>
+        </div>
+
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        // 1. KAWALAN PLAYBACK VIDEO (0:00 - 0:28 LOOP)
+        const video = document.getElementById("bg-video");
+        if (video) {
+            video.muted = true;
+            video.play().catch(() => {});
+
+            video.addEventListener("timeupdate", function() {
+                if (this.currentTime >= 28) {
+                    this.currentTime = 0;
+                    this.play();
+                }
+            });
+        }
+
+        // 2. KAWALAN AUTOPLAY AUDIO (AUTOMATIK BILA BUKA & PAKSA BILA ADA SEBARANG INTERAKSI SKRIN)
+        const audio = document.getElementById("bgm-audio");
+
+        function playAudioStream() {
+            audio.muted = false;
+            audio.play().catch(() => {});
+        }
+
+        // Jalankan autoplay audio terus
+        window.addEventListener("DOMContentLoaded", playAudioStream);
+        window.addEventListener("load", playAudioStream);
+
+        // Pemicu automatik sebaik sahaja skrin disentuh/diklik/digerakkan oleh pengunjung
+        function forceAudioUnmute() {
+            playAudioStream();
+            document.removeEventListener('click', forceAudioUnmute);
+            document.removeEventListener('touchstart', forceAudioUnmute);
+            document.removeEventListener('mousemove', forceAudioUnmute);
+            document.removeEventListener('scroll', forceAudioUnmute);
+        }
+
+        document.addEventListener('click', forceAudioUnmute);
+        document.addEventListener('touchstart', forceAudioUnmute);
+        document.addEventListener('mousemove', forceAudioUnmute);
+        document.addEventListener('scroll', forceAudioUnmute);
+
+        // 3. COUNTDOWN TIMER (SEHINGGA 10 OKTOBER 2026)
+        const targetDate = new Date("October 10, 2026 00:00:00").getTime();
+
+        const timer = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                clearInterval(timer);
+                document.querySelector(".countdown").innerHTML = "<h3 style=\"font-family:'Amiri', serif; font-size:1.8rem;\">تله ديـلانچرکن</h3>";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days < 10 ? '0' + days : days;
+            document.getElementById("hours").innerText = hours < 10 ? '0' + hours : hours;
+            document.getElementById("minutes").innerText = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById("seconds").innerText = seconds < 10 ? '0' + seconds : seconds;
+        }, 1000);
+
+        // 4. FUNGSI TOAST 'اکن داتڠ'
+        let toastTimeout;
+        function showAkanDatang() {
+            const toast = document.getElementById("toast");
+            toast.classList.add("show");
+            
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove("show");
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
